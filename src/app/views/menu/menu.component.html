@@ -11,9 +11,11 @@
   >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item routerLink="/clientes">Perfil</a>
+      <a mat-list-item routerLink="/catalogo">Catalogo</a>
+      <a mat-list-item routerLink="/carrito">Carrito</a>
+      <a mat-list-item routerLink="/categorias">Categorias</a>
+      <a mat-list-item routerLink="/contacto">Contactanos</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -23,8 +25,8 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <span>Muebles_JS</span>
+      <a routerLink="/inicio">Muebles JS</a>
     </mat-toolbar>
-    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
