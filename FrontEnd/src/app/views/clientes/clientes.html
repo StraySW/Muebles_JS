@@ -1,0 +1,13 @@
+<h1>Clientes</h1>
+
+@if (cargando) {
+	<p role="status">Cargando clientes...</p>
+}
+
+@if (error) {
+	<p role="alert">{{ error }}</p>
+}
+
+@if (!cargando && !error) {
+	<app-table [dataSource]="clientes"></app-table>
+}

@@ -1,0 +1,24 @@
+import cors from 'cors';
+import express from 'express';
+import { errorHandler } from './middleware/error.middleware';
+import clientesRoutes from './routes/clientes.routes';
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use((req, res, next) => {
+	res.on('finish', () => {
+		console.log(`${req.method} ${req.originalUrl} -> ${res.statusCode}`);
+	});
+	next();
+});
+
+app.get('/api/v1/health', (_req, res) => {
+	res.json({ status: 'OK' });
+});
+
+app.use('/api/v1/clientes', clientesRoutes);
+app.use(errorHandler);
+
+export default app;
