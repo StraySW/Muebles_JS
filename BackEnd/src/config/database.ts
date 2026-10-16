@@ -4,43 +4,53 @@ import type { Categoria } from '../models/categoria.model';
 import type { Cliente } from '../models/cliente.model';
 
 /* =========================================================================
-   DATOS HARCODEADOS: CLIENTES
+   DATOS HARCODEADOS: CLIENTES (Estructura Profesor)
    ========================================================================= */
 export const clientesDB: Cliente[] = [
 	{
 		id: 1,
-		nombre: 'Juan Perez',
-		cedula: '1001234567',
-		direccion: 'Calle 10 # 5-20',
-		telefono: '3001234567',
+		nombre: 'Juan',
+		apellido: 'Perez',
+		edad: 28,
+		sexo: 'M',
+		email: 'juan.perez@example.com',
+		fecha_creacion: new Date('2026-01-15T10:00:00Z'),
 	},
 	{
 		id: 2,
-		nombre: 'Maria Gomez',
-		cedula: '1002345678',
-		direccion: 'Carrera 15 # 45-10',
-		telefono: '3102345678',
+		nombre: 'Maria',
+		apellido: 'Gomez',
+		edad: 34,
+		sexo: 'F',
+		email: 'maria.gomez@example.com',
+		fecha_creacion: new Date('2026-02-20T14:30:00Z'),
 	},
 	{
 		id: 3,
-		nombre: 'Carlos Rodriguez',
-		cedula: '1003456789',
-		direccion: 'Avenida 68 # 26-50',
-		telefono: '3203456789',
+		nombre: 'Carlos',
+		apellido: 'Rodriguez',
+		edad: 42,
+		sexo: 'M',
+		email: 'carlos.rodriguez@example.com',
+		fecha_creacion: new Date('2026-03-05T09:15:00Z'),
 	},
 	{
 		id: 4,
-		nombre: 'Ana Martinez',
-		cedula: '1004567890',
-		direccion: 'Calle 80 # 11-30',
-		telefono: '3154567890',
+		nombre: 'Ana',
+		apellido: 'Martinez',
+		edad: 25,
+		sexo: 'F',
+		email: 'ana.martinez@example.com',
+		fecha_creacion: new Date('2026-04-10T16:45:00Z'),
 	},
 	{
 		id: 5,
-		nombre: 'Pedro Lopez',
-		cedula: '1005678901',
-		direccion: 'Carrera 7 # 32-15',
-		telefono: '3185678901',
+		nombre: 'Pedro',
+		apellido: 'Lopez',
+		edad: 39,
+		sexo: 'M',
+		email: 'pedro.lopez@example.com',
+		fecha_creacion: new Date('2026-05-18T11:20:00Z'),
 	},
 ];
 
