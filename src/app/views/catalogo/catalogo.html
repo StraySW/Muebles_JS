@@ -4,19 +4,6 @@
     <p class="subtitulo">Explora nuestra colección exclusiva fabricada con maderas finas y acabados de primera calidad.</p>
   </div>
 
-  <!-- Filtro por categorías -->
-  <div class="filtro-categorias">
-    @for (cat of categoriasDisponibles; track cat) {
-      <button
-        type="button"
-        class="filtro-btn"
-        [class.activo]="(categoriaSeleccionada === '' && cat === 'Todas') || (categoriaSeleccionada === cat)"
-        (click)="filtrarPorCategoria(cat)">
-        {{ cat }}
-      </button>
-    }
-  </div>
-
   @if (cargando) {
     <div class="alerta cargando">
       <span class="spinner"></span>

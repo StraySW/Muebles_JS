@@ -20,36 +20,6 @@
   font-size: 1rem;
 }
 
-.filtro-categorias {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.filtro-btn {
-  border: 1px solid #d0d7de;
-  background-color: #f6f8fa;
-  color: #24292f;
-  padding: 8px 18px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.filtro-btn:hover {
-  background-color: #e9ecef;
-}
-
-.filtro-btn.activo {
-  background-color: #3f51b5;
-  color: #ffffff;
-  border-color: #3f51b5;
-  box-shadow: 0 2px 6px rgba(63, 81, 181, 0.3);
-}
-
 .alerta {
   padding: 16px;
   border-radius: 8px;

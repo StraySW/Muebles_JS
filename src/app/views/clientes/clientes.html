@@ -19,7 +19,7 @@
 
   @if (!cargando && !error) {
     <div class="tabla-card">
-      <app-table [dataSource]="clientes"></app-table>
+      <app-table [dataSource]="clientes" [columns]="clienteColumns"></app-table>
     </div>
   }
 </div>

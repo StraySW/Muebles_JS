@@ -1,3 +1,25 @@
-table {
+.tabla-dinamica {
   width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabla-dinamica th,
+.tabla-dinamica td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tabla-dinamica th {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+}
+
+.tabla-dinamica tbody tr:hover {
+  background: #f7fafc;
 }
