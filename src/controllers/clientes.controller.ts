@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { ClienteModel, type ClienteInput } from '../models/cliente.model';
+import { ClienteModel, type Cliente } from '../models/cliente.model';
 
 export const obtenerClientes = async (
 	_req: Request,
@@ -42,7 +42,7 @@ export const crearCliente = async (
 	next: NextFunction,
 ): Promise<void> => {
 	try {
-		const cliente = await ClienteModel.crear(req.body as ClienteInput);
+		const cliente = await ClienteModel.crear(req.body as Cliente);
 		console.log('Cliente creado:', cliente);
 		res.status(201).json(cliente);
 	} catch (error) {
@@ -59,7 +59,7 @@ export const actualizarCliente = async (
 		const id = Number(req.params['id']);
 		const cliente = await ClienteModel.actualizar(
 			id,
-			req.body as ClienteInput,
+			req.body as Cliente,
 		);
 		console.log('Cliente actualizado:', cliente);
 
