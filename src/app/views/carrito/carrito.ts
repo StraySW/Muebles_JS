@@ -34,6 +34,7 @@ export class Carrito implements OnInit {
   ngOnInit(): void {
     this.carritoService.obtenerTodos().subscribe({
       next: (carritos) => {
+        console.log('📦 [Carrito Component] Datos recibidos desde el Backend:', carritos);
         this.carritos = carritos;
         this.cargando = false;
       },
