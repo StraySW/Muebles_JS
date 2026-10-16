@@ -1,3 +1,68 @@
-<h1>Catalogo</h1>
-<p>catalogo works!</p>
+<div class="catalogo-container">
+  <div class="catalogo-header">
+    <h1>Catálogo de Muebles</h1>
+    <p class="subtitulo">Explora nuestra colección exclusiva fabricada con maderas finas y acabados de primera calidad.</p>
+  </div>
 
+  <!-- Filtro por categorías -->
+  <div class="filtro-categorias">
+    @for (cat of categoriasDisponibles; track cat) {
+      <button
+        type="button"
+        class="filtro-btn"
+        [class.activo]="(categoriaSeleccionada === '' && cat === 'Todas') || (categoriaSeleccionada === cat)"
+        (click)="filtrarPorCategoria(cat)">
+        {{ cat }}
+      </button>
+    }
+  </div>
+
+  @if (cargando) {
+    <div class="alerta cargando">
+      <span class="spinner"></span>
+      <span>Cargando productos desde el servidor Backend...</span>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alerta error" role="alert">
+      <span>⚠️ {{ error }}</span>
+    </div>
+  }
+
+  @if (!cargando && !error) {
+    @if (productos.length === 0) {
+      <p class="sin-datos">No se encontraron productos en esta categoría.</p>
+    } @else {
+      <div class="productos-grid">
+        @for (item of productos; track item.id) {
+          <div class="producto-card">
+            <div class="producto-imagen-contenedor">
+              <img [src]="item.imagen" [alt]="item.nombre" class="producto-imagen" loading="lazy" />
+              <span class="producto-categoria">{{ item.categoria }}</span>
+            </div>
+            <div class="producto-info">
+              <h2 class="producto-titulo">{{ item.nombre }}</h2>
+              <p class="producto-descripcion">{{ item.descripcion }}</p>
+              
+              <div class="producto-detalles">
+                <span class="detalle-etiqueta">Material:</span>
+                <span class="detalle-valor">{{ item.material }}</span>
+              </div>
+
+              <div class="producto-footer">
+                <div class="precio-contenedor">
+                  <span class="precio-label">Precio</span>
+                  <span class="precio-valor">{{ item.precio | currency:'COP':'$':'1.0-0' }}</span>
+                </div>
+                <span class="stock-badge" [class.bajo-stock]="item.stock < 5">
+                  Stock: {{ item.stock }} uds
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

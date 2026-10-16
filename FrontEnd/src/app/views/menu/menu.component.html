@@ -9,13 +9,14 @@
     [mode]="isHandset ? 'over' : 'side'"
     [opened]="isHandset === false"
   >
-    <mat-toolbar id="menustitle">Menu</mat-toolbar>
+    <mat-toolbar id="menustitle">Menú</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/clientes">Perfil</a>
-      <a mat-list-item routerLink="/catalogo">Catalogo</a>
+      <a mat-list-item routerLink="/inicio">Inicio</a>
+      <a mat-list-item routerLink="/catalogo">Catálogo</a>
+      <a mat-list-item routerLink="/categorias">Categorías</a>
       <a mat-list-item routerLink="/carrito">Carrito</a>
-      <a mat-list-item routerLink="/categorias">Categorias</a>
-      <a mat-list-item routerLink="/contacto">Contactanos</a>
+      <a mat-list-item routerLink="/clientes">Clientes</a>
+      <a mat-list-item routerLink="/contacto">Contáctanos</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -25,7 +26,7 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-    <a [routerLink]="['/inicio']" aria-label="Ir a inicio" style="display: inline-flex; align-items: center; cursor: pointer;">
+      <a [routerLink]="['/inicio']" aria-label="Ir a inicio" style="display: inline-flex; align-items: center; cursor: pointer;">
         <img src="/assets/MueblesJS_logo_horizontal_tex.png" alt="MueblesJS logo" width="180" height="45" style="margin-right: 8px;" />
       </a>
     </mat-toolbar>

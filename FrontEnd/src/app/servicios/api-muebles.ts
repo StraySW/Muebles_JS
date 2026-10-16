@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Service, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RespuestaCarritos } from '../modelos/carrito.model';
+import type { Producto } from '../modelos/catalogo.model';
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class ApiMuebles {
 	private readonly http = inject(HttpClient);
-	private readonly apiUrl = 'https://dummyjson.com/carts';
+	private readonly apiUrl = 'http://localhost:3000/api/v1/catalogo';
 
-	getCarts(): Observable<RespuestaCarritos> {
-		return this.http.get<RespuestaCarritos>(this.apiUrl);
+	getProductos(): Observable<Producto[]> {
+		return this.http.get<Producto[]>(this.apiUrl);
 	}
 }

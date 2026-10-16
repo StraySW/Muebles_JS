@@ -1,13 +1,25 @@
-<h1>Clientes</h1>
+<div class="clientes-container">
+  <div class="clientes-header">
+    <h1>Listado de Clientes Registrados</h1>
+    <p class="subtitulo">Información consultada directamente desde el servicio REST de BackEnd.</p>
+  </div>
 
-@if (cargando) {
-	<p role="status">Cargando clientes...</p>
-}
+  @if (cargando) {
+    <div class="alerta cargando">
+      <span class="spinner"></span>
+      <span>Cargando clientes desde el servidor Backend...</span>
+    </div>
+  }
 
-@if (error) {
-	<p role="alert">{{ error }}</p>
-}
+  @if (error) {
+    <div class="alerta error" role="alert">
+      <span>⚠️ {{ error }}</span>
+    </div>
+  }
 
-@if (!cargando && !error) {
-	<app-table [dataSource]="clientes"></app-table>
-}
+  @if (!cargando && !error) {
+    <div class="tabla-card">
+      <app-table [dataSource]="clientes"></app-table>
+    </div>
+  }
+</div>

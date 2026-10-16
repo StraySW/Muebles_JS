@@ -1,0 +1,137 @@
+.categorias-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.categorias-header {
+  margin-bottom: 24px;
+}
+
+.categorias-header h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.subtitulo {
+  color: #666;
+  font-size: 1rem;
+}
+
+.alerta {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alerta.cargando {
+  background-color: #e8f4fd;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.alerta.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0c5460;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 24px;
+}
+
+.categoria-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.categoria-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.categoria-imagen-contenedor {
+  position: relative;
+  width: 100%;
+  height: 180px;
+}
+
+.categoria-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contador-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(63, 81, 181, 0.9);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.categoria-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.categoria-nombre {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.categoria-descripcion {
+  font-size: 0.9rem;
+  color: #6c757d;
+  line-height: 1.45;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.ver-productos-btn {
+  display: inline-block;
+  color: #3f51b5;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+}
+
+.ver-productos-btn:hover {
+  color: #1a237e;
+  text-decoration: underline;
+}

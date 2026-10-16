@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-inicio',
+  standalone: true,
+  imports: [RouterLink],
   styleUrl: './inicio.css',
   templateUrl: './inicio.html',
 })
