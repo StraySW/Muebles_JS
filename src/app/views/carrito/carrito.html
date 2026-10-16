@@ -1,2 +1,72 @@
-<h1>Carrito</h1>
-<p>carrito works!</p>
+<div class="carrito-container">
+  <div class="carrito-header">
+    <h1>Carritos de Compra Activos</h1>
+    <p class="subtitulo">Pedidos en proceso sincronizados en tiempo real con el servidor Backend.</p>
+  </div>
+
+  @if (cargando) {
+    <div class="alerta cargando">
+      <span class="spinner"></span>
+      <span>Cargando carritos desde el servidor Backend...</span>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alerta error" role="alert">
+      <span>⚠️ {{ error }}</span>
+    </div>
+  }
+
+  @if (!cargando && !error) {
+    @if (carritos.length === 0) {
+      <p class="sin-datos">No hay carritos activos actualmente en el backend.</p>
+    } @else {
+      <div class="carritos-lista">
+        @for (cart of carritos; track cart.id) {
+          <div class="cart-tarjeta">
+            <div class="cart-tarjeta-header">
+              <div class="cliente-info">
+                <span class="carrito-id">Carrito #{{ cart.id }}</span>
+                <span class="cliente-nombre">👤 Cliente: <strong>{{ cart.clienteNombre }}</strong></span>
+              </div>
+              <span class="badge-items">{{ cart.totalItems }} productos</span>
+            </div>
+
+            <div class="items-tabla-contenedor">
+              <table class="items-tabla">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of cart.items; track item.productoId) {
+                    <tr>
+                      <td class="col-producto">
+                        <img [src]="item.imagen" [alt]="item.nombre" class="item-miniatura" />
+                        <span class="item-nombre">{{ item.nombre }}</span>
+                      </td>
+                      <td class="col-cantidad">{{ item.cantidad }}</td>
+                      <td class="col-precio">{{ item.precio | currency:'COP':'$':'1.0-0' }}</td>
+                      <td class="col-total">{{ item.total | currency:'COP':'$':'1.0-0' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="cart-tarjeta-footer">
+              <div class="total-resumen">
+                <span class="total-label">Total Carrito:</span>
+                <span class="total-monto">{{ cart.total | currency:'COP':'$':'1.0-0' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
