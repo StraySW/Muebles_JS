@@ -25,6 +25,7 @@ export class Categorias implements OnInit {
   ngOnInit(): void {
     this.categoriasService.obtenerTodas().subscribe({
       next: (categorias) => {
+        console.log('📦 [Categorias Component] Datos recibidos desde el Backend:', categorias);
         this.categorias = categorias;
         this.cargando = false;
       },

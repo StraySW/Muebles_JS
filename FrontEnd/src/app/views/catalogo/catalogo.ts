@@ -27,6 +27,7 @@ export class Catalogo implements OnInit {
 
     this.catalogoService.obtenerCatalogo().subscribe({
       next: (productos) => {
+        console.log('📦 [Catalogo Component] Datos recibidos desde el Backend:', productos);
         this.productos = productos;
         this.cargando = false;
       },

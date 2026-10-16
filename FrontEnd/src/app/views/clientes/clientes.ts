@@ -36,6 +36,7 @@ export class Clientes implements OnInit {
   ngOnInit(): void {
     this.clientesService.getClientes().subscribe({
       next: (clientes) => {
+        console.log('📦 [Clientes Component] Datos recibidos desde el Backend:', clientes);
         this.clientes = clientes;
         this.cargando = false;
       },
