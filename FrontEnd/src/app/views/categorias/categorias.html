@@ -18,20 +18,8 @@
   }
 
   @if (!cargando && !error) {
-    <div class="categorias-grid">
-      @for (cat of categorias; track cat.id) {
-        <div class="categoria-card">
-          <div class="categoria-imagen-contenedor">
-            <img [src]="cat.imagen" [alt]="cat.nombre" class="categoria-imagen" loading="lazy" />
-            <span class="contador-badge">{{ cat.cantidadProductos }} productos</span>
-          </div>
-          <div class="categoria-info">
-            <h2 class="categoria-nombre">{{ cat.nombre }}</h2>
-            <p class="categoria-descripcion">{{ cat.descripcion }}</p>
-            <a routerLink="/catalogo" class="ver-productos-btn">Ver Catálogo &rarr;</a>
-          </div>
-        </div>
-      }
+    <div class="tabla-card">
+      <app-table [dataSource]="categorias" [columns]="categoriaColumns"></app-table>
     </div>
   }
 </div>

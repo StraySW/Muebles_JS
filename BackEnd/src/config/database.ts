@@ -3,9 +3,6 @@ import type { Producto } from '../models/catalogo.model';
 import type { Categoria } from '../models/categoria.model';
 import type { Cliente } from '../models/cliente.model';
 
-/* =========================================================================
-   DATOS HARCODEADOS: CLIENTES (Estructura Profesor)
-   ========================================================================= */
 export const clientesDB: Cliente[] = [
 	{
 		id: 1,
@@ -57,9 +54,6 @@ export const clientesDB: Cliente[] = [
 let siguienteIdCliente = clientesDB.length + 1;
 export const obtenerSiguienteId = (): number => siguienteIdCliente++;
 
-/* =========================================================================
-   DATOS HARCODEADOS: CATEGORÍAS
-   ========================================================================= */
 export const categoriasDB: Categoria[] = [
 	{
 		id: 1,
@@ -94,9 +88,7 @@ export const categoriasDB: Categoria[] = [
 let siguienteIdCategoria = categoriasDB.length + 1;
 export const obtenerSiguienteIdCategoria = (): number => siguienteIdCategoria++;
 
-/* =========================================================================
-   DATOS HARCODEADOS: CATÁLOGO DE PRODUCTOS (MUEBLES)
-   ========================================================================= */
+
 export const catalogoDB: Producto[] = [
 	{
 		id: 1,
@@ -193,9 +185,6 @@ export const catalogoDB: Producto[] = [
 let siguienteIdCatalogo = catalogoDB.length + 1;
 export const obtenerSiguienteIdCatalogo = (): number => siguienteIdCatalogo++;
 
-/* =========================================================================
-   DATOS HARCODEADOS: CARRITO DE COMPRAS
-   ========================================================================= */
 export const carritoDB: Carrito[] = [
 	{
 		id: 1,

@@ -1,29 +1,28 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { Table, type TableColumn } from '../../componentes/table/table';
 import type { Categoria } from '../../modelos/categoria.model';
 import { CategoriasService } from '../../servicios/categorias.service';
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, Table],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
 export class Categorias implements OnInit {
   private readonly categoriasService = inject(CategoriasService);
-  private readonly platformId = inject(PLATFORM_ID);
 
   categorias: Categoria[] = [];
+  categoriaColumns: TableColumn[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'nombre', label: 'Nombre' },
+  ];
   cargando = true;
   error = '';
 
   ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
     this.categoriasService.obtenerTodas().subscribe({
       next: (categorias) => {
         this.categorias = categorias;

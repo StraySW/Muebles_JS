@@ -1,6 +1,5 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { Table } from '../../componentes/table/table';
+import { Component, OnInit, inject } from '@angular/core';
+import { Table, type TableColumn } from '../../componentes/table/table';
 import type { Cliente } from '../../modelos/cliente.model';
 import { ClientesService } from '../../servicios/clientes.service';
 
@@ -12,18 +11,30 @@ import { ClientesService } from '../../servicios/clientes.service';
 })
 export class Clientes implements OnInit {
   private readonly clientesService = inject(ClientesService);
-  private readonly platformId = inject(PLATFORM_ID);
 
   clientes: Cliente[] = [];
+  clienteColumns: TableColumn[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'apellido', label: 'Apellido' },
+    { key: 'edad', label: 'Edad' },
+    { key: 'sexo', label: 'Sexo' },
+    { key: 'email', label: 'Email' },
+    {
+      key: 'fecha_creacion',
+      label: 'Fecha Creación',
+      formatter: (value: unknown) => {
+        if (!value) return 'N/A';
+        const date = new Date(String(value));
+        return Number.isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString('es-ES');
+      },
+    },
+  ];
   cargando = true;
   error = '';
 
   ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    this.clientesService.obtenerTodos().subscribe({
+    this.clientesService.getClientes().subscribe({
       next: (clientes) => {
         this.clientes = clientes;
         this.cargando = false;

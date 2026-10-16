@@ -19,25 +19,4 @@ export class CatalogoService {
 			}),
 		);
 	}
-
-	obtenerPorId(id: number): Observable<Producto> {
-		return this.http.get<Producto>(`${this.apiUrl}/${id}`).pipe(
-			tap({
-				next: (res) => console.log(`GET /api/v1/catalogo/${id}:`, res),
-				error: (err) => console.error(`Error GET /api/v1/catalogo/${id}:`, err),
-			}),
-		);
-	}
-
-	crear(producto: ProductoInput): Observable<Producto> {
-		return this.http.post<Producto>(this.apiUrl, producto);
-	}
-
-	actualizar(id: number, producto: ProductoInput): Observable<Producto> {
-		return this.http.put<Producto>(`${this.apiUrl}/${id}`, producto);
-	}
-
-	eliminar(id: number): Observable<void> {
-		return this.http.delete<void>(`${this.apiUrl}/${id}`);
-	}
 }
