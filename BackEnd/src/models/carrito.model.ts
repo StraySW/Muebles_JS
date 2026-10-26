@@ -1,72 +1,133 @@
-import { carritoDB, obtenerSiguienteIdCarrito } from '../config/database';
+import { pool } from '../config/postgres';
 
 export interface ItemCarrito {
-	productoId: number;
-	nombre: string;
-	precio: number;
-	cantidad: number;
-	total: number;
-	imagen: string;
+  productoId: string;
+  nombre: string;
+  precio: number;
+  cantidad: number;
+  total: number;
+  imagen?: string;
 }
 
 export interface Carrito {
-	id: number;
-	clienteId: number;
-	clienteNombre: string;
-	items: ItemCarrito[];
-	total: number;
-	totalItems: number;
+  id: string;
+  clienteId: string;
+  clienteNombre: string;
+  items: ItemCarrito[];
+  total: number;
+  totalItems: number;
 }
 
 export type CarritoInput = Omit<Carrito, 'id'>;
 
 export class CarritoModel {
-	static async obtenerTodos(): Promise<Carrito[]> {
-		return carritoDB;
-	}
+  static async obtenerTodos(): Promise<Carrito[]> {
+    const res = await pool.query(`
+      SELECT 
+        o.id_orden AS id,
+        o.id_cliente AS "clienteId",
+        CONCAT(c.nombres, ' ', COALESCE(c.apellidos, '')) AS "clienteNombre",
+        o.total::numeric AS total,
+        COALESCE(SUM(d.cantidad), 0)::int AS "totalItems"
+      FROM Ordenes o
+      JOIN Clientes c ON o.id_cliente = c.id_cliente
+      LEFT JOIN Detalle_Orden d ON o.id_orden = d.id_orden
+      WHERE o.estado = 'Pendiente'
+      GROUP BY o.id_orden, o.id_cliente, c.nombres, c.apellidos
+      ORDER BY o.fecha_orden DESC;
+    `);
 
-	static async obtenerPorId(id: number): Promise<Carrito | null> {
-		return carritoDB.find((carrito) => carrito.id === id) ?? null;
-	}
+    return res.rows.map((row) => ({
+      ...row,
+      items: [],
+    }));
+  }
 
-	static async obtenerPorClienteId(clienteId: number): Promise<Carrito | null> {
-		return (
-			carritoDB.find((carrito) => carrito.clienteId === clienteId) ?? null
-		);
-	}
+  static async obtenerPorId(id: string): Promise<Carrito | null> {
+    const res = await pool.query(
+      `
+      SELECT 
+        o.id_orden AS id,
+        o.id_cliente AS "clienteId",
+        CONCAT(c.nombres, ' ', COALESCE(c.apellidos, '')) AS "clienteNombre",
+        o.total::numeric AS total
+      FROM Ordenes o
+      JOIN Clientes c ON o.id_cliente = c.id_cliente
+      WHERE o.id_orden = $1;
+      `,
+      [id]
+    );
 
-	static async crear(carrito: CarritoInput): Promise<Carrito> {
-		const nuevoCarrito: Carrito = {
-			...carrito,
-			id: obtenerSiguienteIdCarrito(),
-		};
+    if (res.rowCount === 0) return null;
 
-		carritoDB.push(nuevoCarrito);
-		return nuevoCarrito;
-	}
+    const itemsRes = await pool.query(
+      `
+      SELECT 
+        d.id_producto AS "productoId",
+        p.nombre_producto AS nombre,
+        d.precio_unitario::numeric AS precio,
+        d.cantidad,
+        (d.precio_unitario * d.cantidad)::numeric AS total,
+        p.imagen_principal_url AS imagen
+      FROM Detalle_Orden d
+      JOIN Productos p ON d.id_producto = p.id_producto
+      WHERE d.id_orden = $1;
+      `,
+      [id]
+    );
 
-	static async actualizar(
-		id: number,
-		carrito: CarritoInput,
-	): Promise<Carrito | null> {
-		const carritoActual = carritoDB.find((item) => item.id === id);
+    const row = res.rows[0];
+    return {
+      id: row.id,
+      clienteId: row.clienteId,
+      clienteNombre: row.clienteNombre,
+      items: itemsRes.rows,
+      total: Number(row.total),
+      totalItems: itemsRes.rows.reduce((acc, item) => acc + item.cantidad, 0),
+    };
+  }
 
-		if (!carritoActual) {
-			return null;
-		}
+  static async obtenerPorClienteId(clienteId: string): Promise<Carrito | null> {
+    const res = await pool.query(
+      `
+      SELECT id_orden FROM Ordenes
+      WHERE id_cliente = $1 AND estado = 'Pendiente'
+      ORDER BY fecha_orden DESC LIMIT 1;
+      `,
+      [clienteId]
+    );
+    if (res.rowCount === 0) return null;
+    return this.obtenerPorId(res.rows[0].id_orden);
+  }
 
-		Object.assign(carritoActual, carrito);
-		return carritoActual;
-	}
+  static async crear(carrito: CarritoInput): Promise<Carrito> {
+    const idOrden = 'ORD-' + Date.now();
+    await pool.query(
+      `
+      INSERT INTO Ordenes (id_orden, id_cliente, total, estado)
+      VALUES ($1, $2, $3, 'Pendiente');
+      `,
+      [idOrden, carrito.clienteId, carrito.total]
+    );
 
-	static async eliminar(id: number): Promise<boolean> {
-		const index = carritoDB.findIndex((carrito) => carrito.id === id);
+    return {
+      id: idOrden,
+      ...carrito,
+    };
+  }
 
-		if (index === -1) {
-			return false;
-		}
+  static async actualizar(id: string, carrito: Partial<CarritoInput>): Promise<Carrito | null> {
+    if (carrito.total !== undefined) {
+      await pool.query(
+        `UPDATE Ordenes SET total = $2 WHERE id_orden = $1;`,
+        [id, carrito.total]
+      );
+    }
+    return this.obtenerPorId(id);
+  }
 
-		carritoDB.splice(index, 1);
-		return true;
-	}
+  static async eliminar(id: string): Promise<boolean> {
+    const res = await pool.query(`DELETE FROM Ordenes WHERE id_orden = $1;`, [id]);
+    return (res.rowCount ?? 0) > 0;
+  }
 }

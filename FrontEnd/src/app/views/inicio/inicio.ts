@@ -9,3 +9,4 @@ import { RouterLink } from '@angular/router';
   templateUrl: './inicio.html',
 })
 export class Inicio {}
+  

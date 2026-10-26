@@ -12,7 +12,6 @@ export const obtenerCatalogo = async (
 			? await CatalogoModel.obtenerPorCategoria(categoria)
 			: await CatalogoModel.obtenerTodos();
 
-		console.log(`Catálogo obtenido (${productos.length} productos):`, productos);
 		res.status(200).json(productos);
 	} catch (error) {
 		next(error);
@@ -25,9 +24,8 @@ export const obtenerProductoPorId = async (
 	next: NextFunction,
 ): Promise<void> => {
 	try {
-		const id = Number(req.params['id']);
+		const id = String(req.params['id']);
 		const producto = await CatalogoModel.obtenerPorId(id);
-		console.log('Producto solicitado:', producto);
 
 		if (!producto) {
 			res.status(404).json({ message: 'Producto no encontrado' });
@@ -47,7 +45,6 @@ export const crearProducto = async (
 ): Promise<void> => {
 	try {
 		const nuevoProducto = await CatalogoModel.crear(req.body as ProductoInput);
-		console.log('Producto creado:', nuevoProducto);
 		res.status(201).json(nuevoProducto);
 	} catch (error) {
 		next(error);
@@ -60,12 +57,11 @@ export const actualizarProducto = async (
 	next: NextFunction,
 ): Promise<void> => {
 	try {
-		const id = Number(req.params['id']);
+		const id = String(req.params['id']);
 		const producto = await CatalogoModel.actualizar(
 			id,
 			req.body as ProductoInput,
 		);
-		console.log('Producto actualizado:', producto);
 
 		if (!producto) {
 			res.status(404).json({ message: 'Producto no encontrado' });
@@ -84,9 +80,8 @@ export const eliminarProducto = async (
 	next: NextFunction,
 ): Promise<void> => {
 	try {
-		const id = Number(req.params['id']);
+		const id = String(req.params['id']);
 		const eliminado = await CatalogoModel.eliminar(id);
-		console.log(`Producto ${id} eliminado:`, eliminado);
 
 		if (!eliminado) {
 			res.status(404).json({ message: 'Producto no encontrado' });

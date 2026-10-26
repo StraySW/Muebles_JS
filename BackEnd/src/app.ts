@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import { errorHandler } from './middleware/error.middleware';
+import authRoutes from './routes/auth.routes';
 import carritoRoutes from './routes/carrito.routes';
 import catalogoRoutes from './routes/catalogo.routes';
 import categoriasRoutes from './routes/categorias.routes';
@@ -21,6 +22,7 @@ app.get('/api/v1/health', (_req, res) => {
 	res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/clientes', clientesRoutes);
 app.use('/api/v1/catalogo', catalogoRoutes);
 app.use('/api/v1/categorias', categoriasRoutes);
