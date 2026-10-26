@@ -28,3 +28,71 @@
   font-weight: bold;
   text-align: center;
 }
+
+.main-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.nav-auth-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  font-weight: 500;
+}
+
+.nav-register-btn {
+  background-color: #075b3c !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+.user-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.user-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.user-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

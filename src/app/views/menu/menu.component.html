@@ -1,4 +1,6 @@
 @let isHandset = this.isHandset();
+@let currentUser = this.authService.currentUser();
+@let isLoggedIn = this.authService.isLoggedIn();
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
@@ -16,18 +18,60 @@
       <a mat-list-item routerLink="/carrito">Carrito</a>
       <a mat-list-item routerLink="/clientes">Clientes</a>
       <a mat-list-item routerLink="/contacto">Contáctanos</a>
+      @if (isLoggedIn) {
+        <a mat-list-item routerLink="/perfil">Mi Perfil</a>
+        <a mat-list-item (click)="logout()">Cerrar Sesión</a>
+      } @else {
+        <a mat-list-item routerLink="/login">Iniciar Sesión</a>
+        <a mat-list-item routerLink="/registro">Registrarse</a>
+      }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar>
+    <mat-toolbar class="main-toolbar">
       @if (isHandset) {
         <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <a [routerLink]="['/inicio']" aria-label="Ir a inicio" style="display: inline-flex; align-items: center; cursor: pointer;">
+      <a [routerLink]="['/inicio']" aria-label="Ir a inicio" class="logo-link">
         <img src="/assets/MueblesJS_logo_horizontal_tex.png" alt="MueblesJS logo" width="180" height="45" style="margin-right: 8px;" />
       </a>
+
+      <!-- Espaciador para empujar los controles al extremo derecho -->
+      <span class="toolbar-spacer"></span>
+
+      <!-- Icono de Carrito -->
+      <a mat-icon-button routerLink="/carrito" aria-label="Carrito de compras" title="Carrito" class="toolbar-icon-btn">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+
+      <!-- Zona de autenticación en la esquina superior derecha -->
+      @if (isLoggedIn) {
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+          <mat-icon>account_circle</mat-icon>
+          <span class="user-name">{{ currentUser?.nombre }}</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <a mat-menu-item routerLink="/perfil">
+            <mat-icon>person</mat-icon>
+            <span>Mi Perfil</span>
+          </a>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      } @else {
+        <a mat-button routerLink="/login" class="nav-auth-btn">
+          <mat-icon>login</mat-icon>
+          <span>Iniciar Sesión</span>
+        </a>
+        <a mat-flat-button routerLink="/registro" class="nav-register-btn">
+          Registrarse
+        </a>
+      }
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
