@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, catchError, of } from 'rxjs';
+import { API_BASE_URL } from './api-url.generated';
 
 export interface UserSession {
   id?: string;
@@ -30,7 +31,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-  private readonly apiUrl = 'http://localhost:3000/api/v1/auth';
+  private readonly apiUrl = `${API_BASE_URL}/auth`;
 
   readonly currentUser = signal<UserSession | null>(this.getInitialUser());
   readonly isLoggedIn = computed(() => this.currentUser() !== null);

@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import type { Producto, ProductoInput } from '../modelos/catalogo.model';
+import { API_BASE_URL } from './api-url.generated';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogoService {
 	private readonly http = inject(HttpClient);
-	private readonly apiUrl = 'http://localhost:3000/api/v1/catalogo';
+	private readonly apiUrl = `${API_BASE_URL}/catalogo`;
 
 	obtenerCatalogo(categoria?: string): Observable<Producto[]> {
 		const url = categoria

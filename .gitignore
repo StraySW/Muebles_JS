@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Deployment API URL generated before build
+/src/app/servicios/api-url.generated.ts
