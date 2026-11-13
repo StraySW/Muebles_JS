@@ -6,3 +6,4 @@
 **/.env.*
 !**/.env.example
 *.tsbuildinfo
+FrontEnd/src/app/servicios/api-url.generated.ts
