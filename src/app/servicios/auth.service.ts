@@ -56,13 +56,11 @@ export class AuthService {
           }
         }
       }),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       catchError((_err) => {
         return of({ success: false, message: 'Credenciales inválidas o error de conexión' });
       }),
       tap((res) => {
         if ('usuario' in res) {
-          // Éxito
         }
       })
     ) as unknown as Observable<{ success: boolean; message: string }>;

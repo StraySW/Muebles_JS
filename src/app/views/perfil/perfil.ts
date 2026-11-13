@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   templateUrl: './perfil.html',
   styleUrl: './perfil.css',
 })
