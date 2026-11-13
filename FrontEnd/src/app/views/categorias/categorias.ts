@@ -1,39 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { Table, type TableColumn } from '../../componentes/table/table';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import type { Categoria } from '../../modelos/categoria.model';
 import { CategoriasService } from '../../servicios/categorias.service';
+import { GenericTable } from '../../componentes/table/generic-table';
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, Table],
+  imports: [CommonModule, GenericTable],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
 export class Categorias implements OnInit {
-  private readonly categoriasService = inject(CategoriasService);
+  categorias = signal<Categoria[]>([]);
 
-  categorias: Categoria[] = [];
-  categoriaColumns: TableColumn[] = [
-    { key: 'id', label: 'ID' },
-    { key: 'nombre', label: 'Nombre' },
-  ];
-  cargando = true;
-  error = '';
+  private readonly categoriasService = inject(CategoriasService);
 
   ngOnInit(): void {
     this.categoriasService.obtenerTodas().subscribe({
-      next: (categorias) => {
-        console.log('📦 [Categorias Component] Datos recibidos desde el Backend:', categorias);
-        this.categorias = categorias;
-        this.cargando = false;
+      next: (data) => {
+        this.categorias.set(data);
       },
-      error: (err: unknown) => {
-        console.error('Error al obtener categorías:', err);
-        this.error = 'No fue posible cargar las categorías desde el servidor backend.';
-        this.cargando = false;
-      },
+      error: (err) => console.error('Error al obtener categorías:', err),
     });
   }
 }

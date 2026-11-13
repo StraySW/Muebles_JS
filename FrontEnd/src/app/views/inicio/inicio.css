@@ -72,6 +72,29 @@
   transform: translateY(-2px);
 }
 
+.productos-section {
+  margin-bottom: 40px;
+}
+
+.productos-section h2 {
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.productos-section > p {
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.productos-tabla {
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
 .caracteristicas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

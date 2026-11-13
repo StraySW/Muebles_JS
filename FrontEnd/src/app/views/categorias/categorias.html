@@ -4,22 +4,7 @@
     <p class="subtitulo">Selecciona una categoría para explorar los productos disponibles para cada espacio de tu hogar u oficina.</p>
   </div>
 
-  @if (cargando) {
-    <div class="alerta cargando">
-      <span class="spinner"></span>
-      <span>Cargando categorías desde el servidor Backend...</span>
-    </div>
-  }
-
-  @if (error) {
-    <div class="alerta error" role="alert">
-      <span>⚠️ {{ error }}</span>
-    </div>
-  }
-
-  @if (!cargando && !error) {
-    <div class="tabla-card">
-      <app-table [dataSource]="categorias" [columns]="categoriaColumns"></app-table>
-    </div>
-  }
+  <div class="tabla-card">
+    <app-generic-table [dataSource]="categorias()"></app-generic-table>
+  </div>
 </div>

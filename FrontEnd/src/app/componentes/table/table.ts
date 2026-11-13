@@ -1,67 +1,37 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-
-export interface TableColumn {
-  key: string;
-  label: string;
-  formatter?: (value: unknown, row: Record<string, unknown>) => string | number | null | undefined;
-}
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-table',
+  selector: 'app-generic-table',
   standalone: true,
-  imports: [CommonModule],
-  styleUrl: './table.css',
-  templateUrl: './table.html',
+  styleUrl: 'generic-table.css',
+  templateUrl: 'generic-table.html',
+  imports: [CommonModule, MatTableModule],
 })
-export class Table implements OnChanges {
-  @Input() dataSource: unknown[] = [];
-  @Input() columns: TableColumn[] = [
-    { key: 'id', label: 'ID' },
-    { key: 'nombre', label: 'Nombre' },
-    { key: 'apellido', label: 'Apellido' },
-    { key: 'edad', label: 'Edad' },
-    { key: 'sexo', label: 'Sexo' },
-    { key: 'email', label: 'Email' },
-    {
-      key: 'fecha_creacion',
-      label: 'Fecha Creación',
-      formatter: (value: unknown) => {
-        if (!value) return 'N/A';
-        const date = new Date(String(value));
-        return Number.isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString('es-ES');
-      },
-    },
-  ];
+export class GenericTable implements OnChanges {
+  private _dataSource: any[] = [];
 
-  displayedColumns: string[] = [];
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['columns'] || changes['dataSource']) {
-      this.displayedColumns = this.columns.map((column) => column.key);
-    }
+  @Input()
+  set dataSource(value: any[]) {
+    this._dataSource = value || [];
+    this.updateColumns();
+  }
+  get dataSource(): any[] {
+    return this._dataSource;
   }
 
-  trackByRow = (_index: number, row: unknown): string | number => {
-    const record = row as Record<string, unknown>;
-    const rowId = record['id'];
+  displayColumns: string[] = [];
 
-    if (typeof rowId === 'string' || typeof rowId === 'number') {
-      return rowId;
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateColumns();
+  }
+
+  private updateColumns(): void {
+    if (this._dataSource && this._dataSource.length > 0) {
+      this.displayColumns = Object.keys(this._dataSource[0]);
+    } else {
+      this.displayColumns = [];
     }
-
-    return _index;
-  };
-
-  formatCell(row: unknown, column: TableColumn): string {
-    const record = row as Record<string, unknown>;
-    const value = record[column.key];
-    const result = column.formatter ? column.formatter(value, record) : value;
-
-    if (typeof result === 'string' || typeof result === 'number') {
-      return String(result);
-    }
-
-    return result == null ? 'N/A' : String(result);
   }
 }

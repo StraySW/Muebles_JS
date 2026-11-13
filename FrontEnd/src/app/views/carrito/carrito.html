@@ -4,26 +4,7 @@
     <p class="subtitulo">Pedidos en proceso sincronizados en tiempo real con el servidor Backend.</p>
   </div>
 
-  @if (cargando) {
-    <div class="alerta cargando">
-      <span class="spinner"></span>
-      <span>Cargando carritos desde el servidor Backend...</span>
-    </div>
-  }
-
-  @if (error) {
-    <div class="alerta error" role="alert">
-      <span>⚠️ {{ error }}</span>
-    </div>
-  }
-
-  @if (!cargando && !error) {
-    @if (carritos.length === 0) {
-      <p class="sin-datos">No hay carritos activos actualmente en el backend.</p>
-    } @else {
-      <div class="tabla-card">
-        <app-table [dataSource]="carritos" [columns]="carritoColumns"></app-table>
-      </div>
-    }
-  }
+  <div class="tabla-card">
+    <app-generic-table [dataSource]="carritos()"></app-generic-table>
+  </div>
 </div>

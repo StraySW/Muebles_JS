@@ -1,41 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import type { Producto } from '../../modelos/catalogo.model';
 import { CatalogoService } from '../../servicios/catalogo.service';
+import { GenericTable } from '../../componentes/table/generic-table';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GenericTable],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
 })
 export class Catalogo implements OnInit {
+  catalogo = signal<Producto[]>([]);
+
   private readonly catalogoService = inject(CatalogoService);
 
-  productos: Producto[] = [];
-  cargando = true;
-  error = '';
-
   ngOnInit(): void {
-    this.cargarProductos();
-  }
-
-  cargarProductos(): void {
-    this.cargando = true;
-    this.error = '';
-
     this.catalogoService.obtenerCatalogo().subscribe({
-      next: (productos) => {
-        console.log('📦 [Catalogo Component] Datos recibidos desde el Backend:', productos);
-        this.productos = productos;
-        this.cargando = false;
+      next: (data) => {
+        this.catalogo.set(data);
       },
-      error: (err: unknown) => {
-        console.error('Error al cargar catálogo desde el backend:', err);
-        this.error = 'No fue posible cargar el catálogo de productos desde el servidor backend.';
-        this.cargando = false;
-      },
+      error: (err) => console.error ('Error al obtener catálogo:', err),
     });
   }
 }

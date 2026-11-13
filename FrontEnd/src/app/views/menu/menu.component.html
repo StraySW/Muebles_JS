@@ -14,17 +14,11 @@
     <mat-toolbar id="menustitle">Menú</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/inicio">Inicio</a>
+      <a mat-list-item routerLink="/catalogo">Catálogo</a>
       <a mat-list-item routerLink="/categorias">Categorías</a>
       <a mat-list-item routerLink="/carrito">Carrito</a>
       <a mat-list-item routerLink="/clientes">Clientes</a>
       <a mat-list-item routerLink="/contacto">Contáctanos</a>
-      @if (isLoggedIn) {
-        <a mat-list-item routerLink="/perfil">Mi Perfil</a>
-        <a mat-list-item (click)="logout()">Cerrar Sesión</a>
-      } @else {
-        <a mat-list-item routerLink="/login">Iniciar Sesión</a>
-        <a mat-list-item routerLink="/registro">Registrarse</a>
-      }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

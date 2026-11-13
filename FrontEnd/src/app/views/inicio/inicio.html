@@ -12,6 +12,14 @@
     </div>
   </div>
 
+  <section class="productos-section">
+    <h2>Productos disponibles</h2>
+    <p>Consulta los productos del catálogo sincronizados con nuestro servidor.</p>
+    <div class="productos-tabla">
+      <app-generic-table [dataSource]="productos()"></app-generic-table>
+    </div>
+  </section>
+
   <div class="caracteristicas-grid">
     <div class="caracteristica-card">
       <div class="icono">🛋️</div>
