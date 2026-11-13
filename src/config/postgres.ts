@@ -6,11 +6,11 @@ dotenv.config();
 const { Pool } = pg;
 
 export const pool = new Pool({
-  host: process.env['DB_HOST'] || '127.0.0.1',
-  port: Number(process.env['DB_PORT'] || 5432),
-  user: process.env['DB_USER'] || 'postgres',
+  host: process.env['DB_HOST'],
+  port: Number(process.env['DB_PORT']),
+  user: process.env['DB_USER'],
   password: process.env['DB_PASSWORD'] ? process.env['DB_PASSWORD'] : undefined,
-  database: process.env['DB_NAME'] || 'mueblesjs',
+  database: process.env['DB_NAME'],
 });
 
 pool.on('error', (err: Error) => {
