@@ -2,10 +2,13 @@ import type { ErrorRequestHandler } from 'express';
 
 export const errorHandler: ErrorRequestHandler = (
 	error,
-	_req,
+	req,
 	res,
 	_next,
 ) => {
-	console.error(error);
-	res.status(500).json({ message: 'Error interno del servidor' });
+	console.error(`[Error] ${req.method} ${req.originalUrl}:`, error);
+	res.status(500).json({
+		message: 'Error interno del servidor',
+		detalles: error?.message || String(error),
+	});
 };
