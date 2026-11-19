@@ -73,6 +73,18 @@
   box-shadow: 0 0 0 3px rgba(7, 91, 60, 0.12);
 }
 
+.form-group input.input-error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
 .btn-submit {
   width: 100%;
   padding: 12px;

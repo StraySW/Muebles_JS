@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const apiUrl = (process.env['API_URL'] || 'http://localhost:3000/api/v1').replace(/\/+$/, '');
+const apiUrl = (process.env['API_URL'] || 'https://mueblesjs-production.up.railway.app/api/v1').replace(/\/+$/, '');
 const parsedApiUrl = new URL(apiUrl);
 
 if (parsedApiUrl.protocol !== 'http:' && parsedApiUrl.protocol !== 'https:') {
