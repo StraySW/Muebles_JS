@@ -113,6 +113,33 @@ export async function bootstrapDatabase(): Promise<void> {
             CONSTRAINT fk_inv_producto FOREIGN KEY (id_producto) 
                 REFERENCES Productos(id_producto) ON UPDATE CASCADE ON DELETE CASCADE
         );
+
+        CREATE TABLE IF NOT EXISTS Ordenes (
+            id_orden VARCHAR(35) PRIMARY KEY,
+            id_cliente UUID NOT NULL,
+            id_sede_despacho INT,
+            fecha_orden TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            estado VARCHAR(30) NOT NULL DEFAULT 'Pendiente', 
+            subtotal NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+            impuestos NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+            costo_envio NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+            total NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+            CONSTRAINT fk_orden_cliente FOREIGN KEY (id_cliente) 
+                REFERENCES Clientes(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT
+        );
+
+        CREATE TABLE IF NOT EXISTS Detalle_Orden (
+            id_orden VARCHAR(35) NOT NULL,
+            id_producto VARCHAR(30) NOT NULL,
+            cantidad INT NOT NULL CHECK (cantidad > 0),
+            precio_unitario NUMERIC(14,2) NOT NULL,
+            descuento_aplicado NUMERIC(14,2) DEFAULT 0.00,
+            PRIMARY KEY (id_orden, id_producto),
+            CONSTRAINT fk_det_orden FOREIGN KEY (id_orden) 
+                REFERENCES Ordenes(id_orden) ON UPDATE CASCADE ON DELETE CASCADE,
+            CONSTRAINT fk_det_producto FOREIGN KEY (id_producto) 
+                REFERENCES Productos(id_producto) ON UPDATE CASCADE ON DELETE RESTRICT
+        );
       `);
 
       console.log('✅ Esquema creado con éxito.');
@@ -172,6 +199,41 @@ export async function bootstrapDatabase(): Promise<void> {
       ('22222222-2222-2222-2222-222222222222', '1030405060', 'Mariana Sofía', 'Rodríguez Meza', '3159876543', 'Calle 10 # 42-15 Int 3', '05001'),
       ('33333333-3333-3333-3333-333333333333', '1040506070', 'Andrés Felipe', 'Morales Torres', '3187654321', 'Av. Pasoancho # 56-20', '76001')
       ON CONFLICT (cc) DO NOTHING;
+
+      CREATE TABLE IF NOT EXISTS Ordenes (
+          id_orden VARCHAR(35) PRIMARY KEY,
+          id_cliente UUID NOT NULL,
+          id_sede_despacho INT,
+          fecha_orden TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          estado VARCHAR(30) NOT NULL DEFAULT 'Pendiente', 
+          subtotal NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+          impuestos NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+          costo_envio NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+          total NUMERIC(14,2) NOT NULL DEFAULT 0.00,
+          CONSTRAINT fk_orden_cliente FOREIGN KEY (id_cliente) 
+              REFERENCES Clientes(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT
+      );
+
+      CREATE TABLE IF NOT EXISTS Detalle_Orden (
+          id_orden VARCHAR(35) NOT NULL,
+          id_producto VARCHAR(30) NOT NULL,
+          cantidad INT NOT NULL CHECK (cantidad > 0),
+          precio_unitario NUMERIC(14,2) NOT NULL,
+          descuento_aplicado NUMERIC(14,2) DEFAULT 0.00,
+          PRIMARY KEY (id_orden, id_producto),
+          CONSTRAINT fk_det_orden FOREIGN KEY (id_orden) 
+              REFERENCES Ordenes(id_orden) ON UPDATE CASCADE ON DELETE CASCADE,
+          CONSTRAINT fk_det_producto FOREIGN KEY (id_producto) 
+              REFERENCES Productos(id_producto) ON UPDATE CASCADE ON DELETE RESTRICT
+      );
+
+      INSERT INTO Ordenes (id_orden, id_cliente, estado, total) VALUES
+      ('ORD-2026-001', '11111111-1111-1111-1111-111111111111', 'Pendiente', 3200000.00)
+      ON CONFLICT (id_orden) DO NOTHING;
+
+      INSERT INTO Detalle_Orden (id_orden, id_producto, cantidad, precio_unitario) VALUES
+      ('ORD-2026-001', 'PROD-001', 1, 3200000.00)
+      ON CONFLICT (id_orden, id_producto) DO NOTHING;
     `);
 
     console.log('🌱 Base de datos verificada y semillas sincronizadas exitosamente.');

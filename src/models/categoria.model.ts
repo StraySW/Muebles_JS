@@ -22,7 +22,7 @@ export class CategoriaModel {
         COUNT(p.id_producto)::int AS "cantidadProductos"
       FROM Categorias c
       LEFT JOIN Productos p ON c.id_categoria = p.id_categoria AND p.es_activo = TRUE
-      WHERE c.es_activo = TRUE
+      WHERE COALESCE(c.es_activa, TRUE) = TRUE
       GROUP BY c.id_categoria
       ORDER BY c.id_categoria ASC;
     `);
@@ -38,7 +38,7 @@ export class CategoriaModel {
         slug_url,
         descripcion
       FROM Categorias
-      WHERE id_categoria = $1 AND es_activo = TRUE;
+      WHERE id_categoria = $1 AND COALESCE(es_activa, TRUE) = TRUE;
       `,
       [id]
     );
