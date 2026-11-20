@@ -7,6 +7,13 @@ export async function bootstrapDatabase(): Promise<void> {
     // 1. Habilitar extensión pgcrypto
     await pool.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
 
+    // Asegurar columnas opcionales en Usuarios y Categorias
+    await pool.query(`
+      ALTER TABLE Usuarios ADD COLUMN IF NOT EXISTS ultimo_login TIMESTAMP WITH TIME ZONE;
+      ALTER TABLE Categorias ADD COLUMN IF NOT EXISTS es_activa BOOLEAN DEFAULT TRUE;
+      ALTER TABLE Categorias ADD COLUMN IF NOT EXISTS es_activo BOOLEAN DEFAULT TRUE;
+    `).catch(() => {});
+
     // 2. Verificar si existe la tabla Categorias
     const tableCheck = await pool.query(`
       SELECT 1 FROM information_schema.tables 

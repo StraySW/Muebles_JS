@@ -43,11 +43,15 @@ export const loginUsuario = async (
 
     const usuario = resultado.rows[0];
 
-    // Actualizar último login
-    await pool.query(
-      `UPDATE Usuarios SET ultimo_login = CURRENT_TIMESTAMP WHERE id_usuario = $1;`,
-      [usuario.id]
-    );
+    // Actualizar último login de forma segura
+    try {
+      await pool.query(
+        `UPDATE Usuarios SET ultimo_login = CURRENT_TIMESTAMP WHERE id_usuario = $1;`,
+        [usuario.id]
+      );
+    } catch {
+      // Continuar si la columna no existe
+    }
 
     res.status(200).json({
       mensaje: 'Autenticación exitosa',
