@@ -234,6 +234,18 @@ export async function bootstrapDatabase(): Promise<void> {
       INSERT INTO Detalle_Orden (id_orden, id_producto, cantidad, precio_unitario) VALUES
       ('ORD-2026-001', 'PROD-001', 1, 3200000.00)
       ON CONFLICT (id_orden, id_producto) DO NOTHING;
+
+      -- Usuarios de prueba con contraseña encriptada mediante pgcrypto
+      INSERT INTO Usuarios (id_usuario, cc, id_role, email, password_hash) VALUES
+      ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '1000000001', 1, 'admin@mueblesjs.com', crypt('Admin123*', gen_salt('bf', 10))),
+      ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '1020304050', 2, 'carlos.gomez@gmail.com', crypt('Cliente123*', gen_salt('bf', 10))),
+      ('cccccccc-cccc-cccc-cccc-cccccccccccc', '1030405060', 2, 'mariana.rodriguez@gmail.com', crypt('Cliente123*', gen_salt('bf', 10))),
+      ('dddddddd-dddd-dddd-dddd-dddddddddddd', '1000000002', 3, 'vendedor@mueblesjs.com', crypt('Vendedor123*', gen_salt('bf', 10)))
+      ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash;
+
+      -- Asociar id_usuario a los clientes correspondientes
+      UPDATE Clientes SET id_usuario = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' WHERE cc = '1020304050';
+      UPDATE Clientes SET id_usuario = 'cccccccc-cccc-cccc-cccc-cccccccccccc' WHERE cc = '1030405060';
     `);
 
     console.log('🌱 Base de datos verificada y semillas sincronizadas exitosamente.');
